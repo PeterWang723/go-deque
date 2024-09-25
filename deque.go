@@ -57,10 +57,13 @@ func (q *deque[T]) PushBack(item T) {
 
 func (q *deque[T]) PushFront(elem T) {
 	q.grow()
-
 	q.head = q.prev(q.head)
 	q.buf[q.head] = elem
 	q.count++
+}
+
+func (q *deque[T]) PopFront() error{
+	
 }
 
 func (q *deque[T]) grow() {
