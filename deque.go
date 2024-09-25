@@ -62,8 +62,29 @@ func (q *deque[T]) PushFront(elem T) {
 	q.count++
 }
 
-func (q *deque[T]) PopFront() error{
-	
+func (q *deque[T]) PopFront() (T, error){
+	var zero T
+	if q.count <= 0 {
+		return zero, DequeErr{
+			Status: ZeroCount,
+			Message: "Your deque is nothing inside",
+		}
+	}
+
+	item := q.buf[q.head]
+	q.buf[q.head] = zero
+	q.head = q.next(q.head)
+	q.count--
+
+	q.shrink()
+
+	return item, nil
+}
+
+func (q *deque[T]) shrink() {
+	if len(q.buf) > q.minCap && (q.count<<2) == len(q.buf) {
+		q.resize()
+	}
 }
 
 func (q *deque[T]) grow() {

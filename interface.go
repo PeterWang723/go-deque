@@ -5,5 +5,5 @@ type Deque[T any] interface{
 	Len() int
 	PushBack(T)
 	PushFront(T)
-	PopFront() error
+	PopFront() (T, error)
 }
